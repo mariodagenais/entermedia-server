@@ -690,7 +690,8 @@ public class vizonepublisher extends BasePublisher implements Publisher
 
 		//	curl --insecure --user "$VMEUSER:$VMEPASS" --include --header "Accept: application/opensearchdescription+xml" "https://vmeserver/thirdparty/asset/item?format=opensearch"
 
-		String addr = servername + "api/asset/item/" + inAsset.get("vizid");
+		//String addr = servername + "api/asset/item/" + inAsset.get("vizid");
+		String addr = servername + inAsset.get("vizid");
 		
 		
 		
