@@ -305,7 +305,7 @@ public class vizonepublisher extends BasePublisher implements Publisher
 			setField(inAsset, elem, "vpm.restrictions", restrictionVal);
 		}
 		
-        String rightsCode = (String)RightCodes.get(inAsset.get("restrictions"));
+        	String rightsCode = (String)RightCodes.get(inAsset.get("restrictions"));
 		if (rightsCode != null) {
 			setField(inAsset, elem, "asset.rightsCode", rightsCode);
 		}
@@ -314,12 +314,21 @@ public class vizonepublisher extends BasePublisher implements Publisher
 		if (rightsComment != null) {
 			setField(inAsset, elem, "asset.rightsComment", rightsComment);
 		}
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 7);  // number of days to add
-        String dt = sdf.format(c.getTime());
-        setField(inAsset, elem, "asset.retentionDate", dt);
+        	Calendar c = Calendar.getInstance();
+        	String dt = "";
+
+        	if (vizoneretention.equals("oneweek") || vizoneretention.equals("default")) {
+        		c.add(Calendar.DATE, 7);  // number of days to add
+        		dt = sdf.format(c.getTime());
+        	} else if (vizoneretention.equals("90")) {
+        		c.add(Calendar.DATE, 90);  // number of days to add
+        		dt = sdf.format(c.getTime());	
+        	} else {
+        		dt = "";
+        	}
+
+        	setField(inAsset, elem, "asset.retentionDate", dt);
         
 		HttpPut method = new HttpPut(addr);
 		method.setHeader("Content-Type", "application/vnd.vizrt.payload+xml;charset=utf-8");
